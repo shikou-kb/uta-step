@@ -1,11 +1,11 @@
 'use strict';
-const RELEASE = '2026-11-17-1';
+const RELEASE = '2026-11-18-2';
 const BASE = self.registration.scope;
 const PREFIX = 'uta-step:' + new URL(BASE).pathname + ':';
 const SHELL = PREFIX + 'shell:' + RELEASE;
 const MEDIA = PREFIX + 'media:1';
 const url = path => new URL(path, BASE).href;
-const SHELL_PATHS = ['./','index.html','styles.css','app.js','travel.js','lessons.js','waveform.js','manifest.webmanifest','assets/icon-192.png','assets/icon-512.png'];
+const SHELL_PATHS = ['./','index.html',`styles.css?v=${RELEASE}`,`app.js?v=${RELEASE}`,'travel.js','lessons.js','waveform.js','manifest.webmanifest','assets/icon-192.png','assets/icon-512.png'];
 const AUDIO_URL = url('assets/song.mp3');
 
 self.addEventListener('install', event => {

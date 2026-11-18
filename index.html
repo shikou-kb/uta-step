@@ -7,9 +7,9 @@
   <meta name="description" content="从喜欢的日语歌开始：逐句跟唱、假名与罗马音、词语和语法入门。">
   <title>歌で、一歩 · 逐句跟唱日语</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23cf5337'/%3E%3Ctext x='11' y='46' font-size='42' fill='white'%3E歌%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2026-11-18-2">
   <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icon-192.png">
-  <script src="lessons.js" defer></script><script src="waveform.js" defer></script><script src="app.js" defer></script><script src="travel.js" defer></script>
+  <script src="lessons.js" defer></script><script src="waveform.js" defer></script><script src="app.js?v=2026-11-18-2" defer></script><script src="travel.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#practice">跳至跟唱练习</a>
@@ -38,7 +38,17 @@
 
       <section id="practice" class="practice-column" aria-label="当前句跟唱">
         <div class="practice-top"><div><span class="eyebrow" id="sectionLabel">VERSE 01</span><h2>听一句，会一句。</h2></div><span id="lineCounter" class="counter">01</span></div>
-        <div class="reading-toolbar" aria-label="读音和释义显示设置"><span>显示辅助</span><button id="kanaToggle" aria-pressed="true">假名</button><button id="romajiToggle" aria-pressed="true">罗马音</button><button id="zhToggle" aria-pressed="true">中文</button><button id="readingHelp" class="help-button" aria-label="读音显示说明">?</button></div>
+        <div class="reading-toolbar" aria-label="读音和释义显示设置">
+          <span>显示辅助</span>
+          <select id="kanaDisplay" aria-label="假名读音">
+            <option value="katakana">片假名</option>
+            <option value="hiragana">平假名</option>
+            <option value="off">隐藏假名</option>
+          </select>
+          <button id="romajiToggle" aria-pressed="true">罗马音</button>
+          <button id="zhToggle" aria-pressed="true">中文</button>
+          <button id="readingHelp" class="help-button" aria-label="读音显示说明">?</button>
+        </div>
 
         <article class="sentence-card">
           <div class="sentence-meta"><span id="lineTime">00:03 — 00:08</span><span id="lineState">准备好，先听一遍</span></div>
@@ -50,7 +60,7 @@
 
         <div class="practice-settings panel"><label><span class="control-label">练习方式</span><select id="modeSelect"><option value="single">听完一句暂停</option><option value="loop">单句循环</option><option value="shadow">听一句 · 留白跟唱</option><option value="song">整曲连播</option></select></label><label><span class="control-label">跟唱留白</span><select id="gapSelect"><option value="auto">与本句等长</option><option value="2">2 秒</option><option value="4">4 秒</option><option value="6">6 秒</option></select></label><p id="modeHint">先听清一句，再按播放重听。无需从头找进度。</p></div>
 
-        <div class="small-lesson"><span class="lesson-symbol" lang="ja">あ</span><div><h3>今天不用背完五十音。</h3><p>先认出一句里的声音，再慢慢把罗马音关掉。<button id="quickGuide" class="inline-link">从发音开始 ↗</button></p></div></div>
+        <div class="small-lesson"><span class="lesson-symbol" lang="ja">ア</span><div><h3>今天不用背完五十音。</h3><p>先用你熟悉的假名跟唱，熟悉后再把罗马音关掉。<button id="quickGuide" class="inline-link">从发音开始 ↗</button></p></div></div>
 
         <details class="timing-panel panel"><summary>时间轴微调 <span>有切字或错位时使用</span></summary><p>时间轴来自同曲目的平台歌词，未逐句人工听校。可微调本句或整曲；改动只保存在当前浏览器。</p><div class="timing-inputs"><label>本句开始（秒）<input id="startInput" type="number" min="0" step="0.05"></label><label>本句结束（秒）<input id="endInput" type="number" min="0" step="0.05"></label></div><div class="timing-actions"><button id="captureStart" class="mini-button">用当前时间作开始</button><button id="captureEnd" class="mini-button">用当前时间作结束</button><button id="saveTiming" class="mini-button dark">保存本句</button></div><label class="offset-label">整曲偏移（秒，正数向后）<input id="offsetInput" type="number" step="0.05" min="-10" max="10" value="0"></label><button id="resetTiming" class="inline-link">恢复本句平台时间</button><p id="timingError" role="status"></p></details>
       </section>
@@ -59,7 +69,7 @@
         <div class="panel-heading"><h2>把这一句读懂</h2><span class="little-stamp">学</span></div>
         <div class="knowledge-tabs" role="tablist" aria-label="知识类型"><button id="wordsTab" role="tab" aria-selected="true" aria-controls="wordsPane">词语与句型</button><button id="soundTab" role="tab" aria-selected="false" aria-controls="soundPane">发音提示</button></div>
         <div id="wordsPane" role="tabpanel" aria-labelledby="wordsTab"><div id="tokenList" class="token-list"></div><div class="grammar"><span class="tiny-title">一个小知识</span><h3 id="grammarTitle"></h3><p id="grammarBody"></p><div class="example"><span>换个情境说</span><p id="exampleJp" lang="ja"></p><small id="exampleZh"></small></div></div></div>
-        <div id="soundPane" role="tabpanel" aria-labelledby="soundTab" hidden><div class="sound-note"><span class="sound-icon">♪</span><h3>听清，再模仿</h3><p id="pronunciation"></p></div><div class="sound-basics"><h4>读音小约定</h4><p>罗马音用 <b>shi / chi / tsu / fu</b> 等拼法。<b>ou、uu、oo、ii</b> 等连续元音要留够长度；不要照英语习惯读。</p><p>助词「は」读 <b>wa</b>，「を」通常读 <b>o</b>。「っ」先短暂停住；「ん」也占一拍。</p><button id="soundGuide" class="inline-link">打开完整入门指南 ↗</button></div></div>
+        <div id="soundPane" role="tabpanel" aria-labelledby="soundTab" hidden><div class="sound-note"><span class="sound-icon">♪</span><h3>听清，再模仿</h3><p id="pronunciation"></p></div><div class="sound-basics"><h4>读音小约定</h4><p>罗马音用 <b>shi / chi / tsu / fu</b> 等拼法。<b>ou、uu、oo、ii</b> 等连续元音要留够长度；不要照英语习惯读。</p><p>助词「は」读 <b>wa</b>，「を」通常读 <b>o</b>。小「ッ」（っ）先短暂停住；「ン」（ん）也占一拍。</p><button id="soundGuide" class="inline-link">打开完整入门指南 ↗</button></div></div>
         <div id="cautionBox" class="caution" hidden><span>歌词用法提醒</span><p id="cautionText"></p></div>
         <div class="knowledge-foot">歌词保留原文 · 用标准例句学日语</div>
       </aside>
@@ -79,7 +89,7 @@
 
   <dialog id="travelDialog"><button class="dialog-close" data-close aria-label="关闭路上学习">×</button><span class="eyebrow">TAKE A SONG WITH YOU</span><h2>带着这一首，出门吧。</h2><p>先联网准备一次，路上就能继续看歌词、读讲解和跟唱。你的学习记录始终保存在这台设备。</p><div class="offline-card"><h3>离线准备</h3><p id="offlineStatus" role="status">正在检查当前设备的离线资源…</p><button id="cacheAudio" class="primary" disabled>准备离线音频 · 约 8 MB</button><small>建议在 Wi-Fi 下准备。只有显示“音频与页面已备齐”后，才可离线播放内置歌曲。</small></div><div class="home-screen-help"><h3>放到手机主屏幕</h3><button id="installApp" class="mini-button" hidden>添加到主屏幕</button><p><b>安卓</b>：使用 Chrome 或 Edge 打开，点浏览器菜单中的“安装应用”或“添加到主屏幕”。</p><p><b>iPhone</b>：在 Safari 中点“分享”→“添加到主屏幕”。</p><p>出门前可短暂开启飞行模式，重新打开网页并试听一句。浏览器可能清理缓存，长时间未使用后请再次检查离线状态。</p><p>单句循环和留白跟唱请保持网页在前台；锁屏或切到其他应用后，手机可能暂停计时。</p></div><button data-close class="primary">回到跟唱 →</button></dialog>
 
-  <dialog id="guideDialog" class="guide-dialog"><button class="dialog-close" data-close aria-label="关闭指南">×</button><span class="eyebrow">YOUR FIRST STEP</span><h2>不会日语，也可以从这一句开始。</h2><p class="dialog-lead">一次只做四件小事。听清楚，比唱得快更重要。</p><div class="guide-steps"><div><b>01</b><h3>先听一遍</h3><p>点击左侧一句，或「听这一句」。把速度调到 0.75×，留意每个声音。</p></div><div><b>02</b><h3>跟着读音唱</h3><p>先保留假名和罗马音。切换「听一句 · 留白跟唱」，原唱结束后留出你开口的时间。</p></div><div><b>03</b><h3>懂一个知识点</h3><p>右侧先看一个词，再看一句解释。原文有不标准的用法时，学下面的标准例句。</p></div><div><b>04</b><h3>关掉一点辅助</h3><p>熟悉后关闭罗马音，尝试只看假名。能独立唱出来，再点「这句我会了」。</p></div></div><div class="kana-primer"><h3>先认识这些声音</h3><div class="vowel-row"><span>あ<small>a · 啊</small></span><span>い<small>i · 衣</small></span><span>う<small>u · 嘴唇放松</small></span><span>え<small>e · 介于衣与诶</small></span><span>お<small>o · 哦</small></span></div><p>中文提示只是近似。日语「う」不用像普通话“乌”那样把嘴唇撮得很圆。</p><dl><dt>平假名与片假名</dt><dd>「あ」和「ア」都读 a。平假名常用于语尾等，片假名常见于外来词，如「パン」。</dd><dt>长音：一拍变两拍</dt><dd>「学校」がっこう（gakkou）的 ou 通常拉长为 o；「コーヒー」koohii 的 oo 和 ii 都要留足长度。</dd><dt>促音：小小的「っ」</dt><dd>「だった」datta：da 后先短暂停住，再说 ta。不是多加一个 tsu。</dd><dt>拗音：两个字，一拍</dt><dd>「きょ」kyo 连起来读；「きょう」kyou 是两拍，不是 ki-yo-u 三拍。</dd><dt>助词：写法和读法不同</dt><dd>「街は」machi wa；「ことを」koto o。读音栏保留假名拼写，罗马音按助词的读法提示。</dd><dt>旋律不等于日常语调</dt><dd>跟唱练声音和熟悉词句。歌曲会拉长或压缩音节，日常说话的语调不能只从旋律推断。</dd></dl></div><button data-close class="primary">回去试着唱一句 →</button></dialog>
+  <dialog id="guideDialog" class="guide-dialog"><button class="dialog-close" data-close aria-label="关闭指南">×</button><span class="eyebrow">YOUR FIRST STEP</span><h2>不会日语，也可以从这一句开始。</h2><p class="dialog-lead">一次只做四件小事。听清楚，比唱得快更重要。</p><div class="guide-steps"><div><b>01</b><h3>先听一遍</h3><p>点击左侧一句，或「听这一句」。把速度调到 0.75×，留意每个声音。</p></div><div><b>02</b><h3>跟着读音唱</h3><p>读音选「片假名」或「平假名」，罗马音也可以独立开关。切换「听一句 · 留白跟唱」，原唱结束后留出你开口的时间。</p></div><div><b>03</b><h3>懂一个知识点</h3><p>右侧先看一个词，再看一句解释。原文有不标准的用法时，学下面的标准例句。</p></div><div><b>04</b><h3>关掉一点辅助</h3><p>熟悉后关闭罗马音，尝试只看假名。能独立唱出来，再点「这句我会了」。</p></div></div><div class="kana-primer"><h3>先认识这些声音</h3><div class="vowel-row"><span>ア<small>a · 啊</small></span><span>イ<small>i · 衣</small></span><span>ウ<small>u · 嘴唇放松</small></span><span>エ<small>e · 介于衣与诶</small></span><span>オ<small>o · 哦</small></span></div><p>中文提示只是近似。日语「う」不用像普通话“乌”那样把嘴唇撮得很圆。</p><dl><dt>平假名与片假名</dt><dd>「あ」和「ア」都读 a。平假名常用于语尾等，片假名常见于外来词，如「パン」。</dd><dt>长音：一拍变两拍</dt><dd>「学校」がっこう（gakkou）的 ou 通常拉长为 o；「コーヒー」koohii 的 oo 和 ii 都要留足长度。</dd><dt>促音：小小的「っ」</dt><dd>「だった」datta：da 后先短暂停住，再说 ta。不是多加一个 tsu。</dd><dt>拗音：两个字，一拍</dt><dd>「きょ」kyo 连起来读；「きょう」kyou 是两拍，不是 ki-yo-u 三拍。</dd><dt>助词：写法和读法不同</dt><dd>「街は」machi wa；「ことを」koto o。片假名按助词的读法标作「ワ」「オ」「エ」，平假名保留原拼写。</dd><dt>旋律不等于日常语调</dt><dd>跟唱练声音和熟悉词句。歌曲会拉长或压缩音节，日常说话的语调不能只从旋律推断。</dd></dl></div><button data-close class="primary">回去试着唱一句 →</button></dialog>
 
   <dialog id="notebookDialog"><button class="dialog-close" data-close aria-label="关闭学习记录">×</button><span class="eyebrow">MY LITTLE PROGRESS</span><h2>你学会的每一句</h2><p>这是你自己标记的掌握记录，保存在当前设备、当前浏览器。可以导出备份，再导入到另一台设备。</p><div id="notebookList"></div><div class="notebook-actions"><button id="exportBtn" class="primary">导出学习备份</button><button id="backupImport" class="mini-button">导入备份</button></div><input id="backupFile" type="file" accept="application/json,.json" hidden></dialog>
 
